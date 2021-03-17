@@ -15,7 +15,7 @@ class Telegram
     {
         $namespace = self::title($name);
         $class = "\\TelegramApi\\lib\\{$namespace}\\Run";
-        if (class_exists($index)) {
+        if (class_exists($class)) {
             return new $class($config);
         } else {
             trigger_error("错误alipay::{$name}，请检查");

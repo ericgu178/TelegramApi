@@ -22,7 +22,7 @@ class Index
      */
     private $chat_id;
 
-    static $proxy = 'socks5h://127.0.0.1:1080';
+    static $proxy = 'socks5h://localhost:1080';
 
     public function __construct($config)
     {
@@ -38,18 +38,44 @@ class Index
      * @return void
      * @author EricGU178
      */
-    public function sendMessage(string $text)
+    public function sendMessage(string $text,array $ext = [])
     {
-        $data = [
-            'text'  =>  $text,
+        $url = $this->base_url . '/sendMessage?chat_id=' . $this->chat_id . '&';
+        $must_keys = [
+            'text'  =>  urlencode($text),
         ];
-        $str = '?chat_id' . $this->chat_id . '&';
+        $data = array_merge($must_keys,$ext);
         foreach ($data as $key => $value) {
-            $str .= $key . '=' . $value . '&';
+            $url .= $key . '=' . $value . '&';
         }
-        rtrim($str,'&');
-        $this->base_url = $this->base_url . $str;
-        $result = Request::requestGet($this->base_url,[],true,self::$proxy);
+        rtrim($url,'&');
+        $result = Request::requestGet($url,[],true,self::$proxy);
+        return $result;
+    }
+
+    /**
+     * https://core.telegram.org/method/messages.sendPhoto
+     * 
+     * 发送图片消息
+     *
+     * @param string $photo 小于5M的图片链接
+     * @param string $caption 介绍
+     * @return void
+     * @author EricGU178
+     */
+    public function sendPhoto(string $photo,string $caption ,array $ext = [])
+    {
+        $url = $this->base_url . '/sendPhoto?chat_id=' . $this->chat_id . '&';
+        $must_keys = [
+            'photo'  =>  urlencode($photo),
+            'caption'   =>  urlencode($caption)
+        ];
+        $data = array_merge($must_keys,$ext);
+        foreach ($data as $key => $value) {
+            $url .= $key . '=' . $value . '&';
+        }
+        rtrim($url,'&');
+        $result = Request::requestGet($url,[],true,self::$proxy);
         return $result;
     }
 }
