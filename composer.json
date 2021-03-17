@@ -1,0 +1,13 @@
+{
+    "name": "ericgu178/telegram-api",
+    "description": "封转的电报群机器人api",
+    "authors": [
+        {
+            "name": "EricGU178",
+            "email": "ericgu178@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    }
+}
