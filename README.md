@@ -11,12 +11,24 @@
 
 
 ## 安装
-使用下面的命令安装<br>
-`composer require ericgu178/telegram-api`
+
+使用下面的命令安装
+
 <br>
+
+```shell
+composer require ericgu178/telegram-api
+```
+
+<br>
+
 在 php 文件中 使用
+
 <br>
-`use TelgramApi/Telegram`
+
+```php
+use TelgramApi/Telegram
+```
 
 ## 关于
 
@@ -38,7 +50,7 @@
     var_dump($res); // json 数据 去群组查看
 ```
 ## 接口
-目前 只有 /lib/OpenPlatform/Message/ 中三个方法 sendPhoto sendMessage sendGroupMedia
+目前 只有 /lib/OpenPlatform/Message/ 中三个方法 sendPhoto sendMessage sendGroupMedia sendAudio
 ### Message
 
 使用 sendPhoto
@@ -51,7 +63,7 @@
 
 使用 sendGroupMedia
 
-
+sendAudio
 ```php
     $res = $telegram->Message->sendGroupMedia([
         [
@@ -67,4 +79,14 @@
     ]); // $ext 其他参数
     var_dump($res);
 ```
+
+使用 sendAudio
+
+```php
+    $url = '网络地址 mp3 m4a 类型'
+    $res = $telegram->Message->sendAudio(string $url,$ext); // $ext 其他参数
+    var_dump($res);
+```
+
+
 

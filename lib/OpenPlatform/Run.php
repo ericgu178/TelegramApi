@@ -4,14 +4,6 @@ namespace TelegramApi\lib\OpenPlatform;
 class Run
 {
     /**
-     * 工具类api
-     *
-     * @var string
-     * @author EricGU178
-     */
-    private $tool;
-
-    /**
      * 配置
      *
      * @var string
@@ -21,7 +13,7 @@ class Run
     public function __construct($config=[])
     {
         if(empty($config)){
-            throw new \Exception("Telegram配置文件不存在");
+            throw new \Exception("Telegram config file don't exists");
         }
         $this->config = $config;
     }
@@ -29,7 +21,7 @@ class Run
     /**
      * 不存在获取
      *
-     * @param [type] $name
+     * @param string $name
      * @return void
      * @author EricGU178
      */
@@ -37,10 +29,11 @@ class Run
     {
         $classname = self::title($name);
         $class = "\\TelegramApi\\lib\\OpenPlatform\\{$classname}\\Index";
-        if(class_exists($class)){
+        if (class_exists($class)) {
             return new $class($this->config);
-        }else{
-            throw new \Exception("暂时没有这个类");
+        } else {
+            // 没有这个类 请检查书写问题
+            throw new \Exception('No such class，Please check for writing issues');
         }
     }
     

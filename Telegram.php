@@ -18,7 +18,7 @@ class Telegram
         if (class_exists($class)) {
             return new $class($config);
         } else {
-            trigger_error("错误alipay::{$name}，请检查");
+            trigger_error("Error: Telegram::{$name}，please check");
         }
     }
 

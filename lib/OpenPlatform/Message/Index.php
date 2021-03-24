@@ -124,4 +124,56 @@ class Index
         $result = Request::requestPost($url,$data,[],true,self::$proxy);
         return $result;
     }
+
+    /**
+     * 如果希望Telegram客户端在音乐播放器中显示它们，请使用此方法发送音频文件。
+     * 您的音频必须为.MP3或.M4A格式。
+     * 成功后，将返回发送的消息。
+     * 机器人目前最多可以发送50 MB的音频文件，以后可能会更改此限制。
+     *
+     * https://core.telegram.org/bots/api#sendaudio
+     * 
+     * @param $file_url string
+     * @return void
+     * @author EricGU178
+     */
+    public function sendAudio(string $file_url,array $ext = [])
+    {
+        if (empty($file_url)) {
+            throw new \Exception('文件网络地址没有传入');
+        }
+        $url = $this->base_url . '/sendAudio';
+        $data = [
+            'chat_id'   =>  $this->chat_id,
+            'audio'     =>  $file_url
+        ];
+        $request_data = array_merge($data,$ext);
+        $result = Request::requestPost($url,$request_data,[],true,self::$proxy);
+        return $result;
+    }
+
+    /**
+     * 使用此方法发送视频文件，Telegram客户端支持mp4视频（其他格式也可以作为Document发送）。
+     * 成功后，将返回发送的消息。
+     * 机器人目前最多可以发送50 MB的视频文件，以后可能会更改此限制。
+     *
+     * @param string $video_url
+     * @param array $ext
+     * @return void
+     * @author EricGU178
+     */
+    public function sendVideo(string $video_url,array $ext = [])
+    {
+        if (empty($video_url)) {
+            throw new \Exception('文件网络地址没有传入');
+        }
+        $url = $this->base_url . '/sendVideo';
+        $data = [
+            'chat_id'   =>  $this->chat_id,
+            'video'     =>  $video_url
+        ];
+        $request_data = array_merge($data,$ext);
+        $result = Request::requestPost($url,$request_data,[],true,self::$proxy);
+        return $result;
+    }
 }
