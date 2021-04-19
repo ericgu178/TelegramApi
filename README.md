@@ -43,7 +43,8 @@ use TelgramApi/Telegram
         'api_id'    =>  '', // api id
         'api_hash'  =>  '', // api hash
         'botToken'  =>  '', // @EricGU178Bot
-        'chat_id'   =>  '@wechatGroupQrCode'
+        'chat_id'   =>  '@wechatGroupQrCode',
+        'proxy' =>  '' //代理
     ];
     $telegram = Telegram::openPlatform($config);
     $res = $telegram->Message->sendMessage($text = 'Hello World');

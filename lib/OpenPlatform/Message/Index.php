@@ -28,6 +28,7 @@ class Index
     {
         $this->base_url = $this->base_url . $config['botToken'];
         $this->chat_id = $config['chat_id'];
+        self::$proxy = empty($config['proxy']) ? 'socks5h://localhost:1080' : $config['proxy'];
     }
 
     /**
@@ -111,16 +112,17 @@ class Index
      * @return void
      * @author EricGU178
      */
-    public function sendMediaGroup(array $media)
+    public function sendMediaGroup(array $media,array $ext = [])
     {
         $url = $this->base_url . '/sendMediaGroup';
         if (!\is_array($media)) {
             throw new \Exception('必须是一个数组');
         }
-        $data = [
+        $pre_data = [
             'chat_id'   =>  $this->chat_id,
             'media'     =>  json_encode($media,256)
         ];
+        $data = array_merge($pre_data,$ext);
         $result = Request::requestPost($url,$data,[],true,self::$proxy);
         return $result;
     }
@@ -174,6 +176,36 @@ class Index
         ];
         $request_data = array_merge($data,$ext);
         $result = Request::requestPost($url,$request_data,[],true,self::$proxy);
+        return $result;
+    }
+
+    /**
+     * 使用此方法仅编辑邮件的答复标记。成功后，如果编辑后的消息不是嵌入式消息，则返回编辑后的消息，否则返回True。
+     *
+     * @param string $video_url
+     * @param array $ext
+     * @return void
+     * @author EricGU178
+     */
+    public function editMessageReplyMarkup($ids,$reply_markup)
+    {
+        if (!empty($ids['chat_id']) && !empty($ids['message_id'])) {
+            $data = [
+                'chat_id'   =>  $ids['chat_id'],
+                'message_id'    =>  $ids['message_id'],
+            ];
+        } else if (!empty($ids['inline_message_id'])) {
+            $data = [
+                'inline_message_id'   =>  $ids['inline_message_id'],
+            ];
+        }
+
+        if (!\is_string($reply_markup)) {
+            $reply_markup = json_encode($reply_markup,256);
+        }
+        $data['reply_markup'] = $reply_markup;
+        $url = $this->base_url . '/editMessageReplyMarkup';
+        $result = Request::requestPost($url,$data,[],true,self::$proxy);
         return $result;
     }
 }
