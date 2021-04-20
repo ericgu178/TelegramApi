@@ -64,19 +64,16 @@ class Index
      * @return void
      * @author EricGU178
      */
-    public function sendPhoto(string $photo,string $caption ,array $ext = [])
+    public function sendPhoto(string $photo,string $caption = '' ,array $ext = [])
     {
-        $url = $this->base_url . '/sendPhoto?chat_id=' . $this->chat_id . '&';
+        $url = $this->base_url . '/sendPhoto';
         $must_keys = [
-            'photo'  =>  urlencode($photo),
-            'caption'   =>  urlencode($caption)
+            'chat_id'   =>  $this->chat_id,
+            'photo'  =>  $photo,
+            'caption'   =>  $caption
         ];
         $data = array_merge($must_keys,$ext);
-        foreach ($data as $key => $value) {
-            $url .= $key . '=' . $value . '&';
-        }
-        rtrim($url,'&');
-        $result = Request::requestGet($url,[],true,self::$proxy);
+        $result = Request::requestPost($url,$data,[],true,self::$proxy);
         return $result;
     }
 
