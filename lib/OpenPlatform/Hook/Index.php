@@ -82,4 +82,34 @@ class Index
         $result = Request::requestPost($url,$data,[],true,self::$proxy);
         return $result;
     }
+
+    /**
+     * 获取设置的hook信息
+     * 
+     * @return void
+     * @author EricGU178
+     */
+    public function getWebhookInfo()
+    {
+        $url = $this->base_url . '/getWebhookInfo';
+        $result = Request::requestPost($url,[],[],true,self::$proxy);
+        return $result;
+    }
+
+    /**
+     * 如果您决定切换回getUpdates，请使用此方法删除webhook集成。成功返回True。
+     *
+     * @param [type] $drop_pending_updates
+     * @return void
+     * @author EricGU178
+     */
+    public function deleteWebhook($drop_pending_updates = false)
+    {
+        $url = $this->base_url . '/deleteWebhook';
+        $data = [
+            'drop_pending_updates'   =>  $drop_pending_updates
+        ];
+        $result = Request::requestPost($url,$data,[],true,self::$proxy);
+        return $result;
+    }
 }
